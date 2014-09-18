@@ -25,7 +25,7 @@ app.use(stylus.middleware({ src: __dirname + '/public', compile: compile }));
 //these are public so let it in
 app.use(express.static(__dirname + '/public'));
 
-mongoose.connect('mongodb://localhost/mean');
+mongoose.connect('mongodb://sql:sql@ds059519.mongolab.com:59519/mean');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console,'connection error'));
 db.once('open',function callback() {
@@ -47,7 +47,7 @@ app.get('*', function(req,res) {
     res.render('index', { mongoMessage : mongoMessage });
 });
 
-var port = 3030;
+var port = process.env.PORT || 3030;
 app.listen(port);
 
 console.log('listening');
