@@ -32,12 +32,19 @@ db.once('open',function callback() {
    console.log('mongo open');
 });
 
+var messageSchemea = mongoose.Schema( { message: String } );
+var Message = mongoose.model('Message', messageSchemea);
+var mongoMessage;
+Message.findOne().exec(function(err,results) {
+    mongoMessage = results.message;
+});
+
 app.get('/partials/:partialPath',function(req,res) {
    res.render('partials/' + req.params.partialPath)
 });
 
 app.get('*', function(req,res) {
-    res.render('index');
+    res.render('index', { mongoMessage : mongoMessage });
 });
 
 var port = 3030;
