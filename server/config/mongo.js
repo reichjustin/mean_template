@@ -10,4 +10,18 @@ module.exports = function(config) {
     db.once('open', function callback() {
         console.log('mongo open');
     });
+
+    var userSchema = mongoose.Schema({
+       firstName : String,
+       lastName : String,
+       userName : String
+    });
+
+    var User = mongoose.model('User',userSchema);
+
+    User.find().exec(function (err, results) {
+        if (results.length === 0) {
+            User.create( { firstName: 'Justin', lastName: 'Reich', userName: 'reich.justin@gmail.com' });
+        }
+    });
 }
