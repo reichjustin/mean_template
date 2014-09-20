@@ -1,16 +1,6 @@
-var express = require('express')
-
-process.env.NODE_ENV =  process.env.NODE_ENV || "development";
-
-var app = express();
-
-var config = {
-  rootPath : __dirname,
-  port: process.env.PORT || 3030,
-  mongo: {
-      connString : 'mongodb://sql:sql@ds059519.mongolab.com:59519/mean'
-  }
-};
+var express = require('express'),
+    app = express(),
+    config = require('./server/config/config');
 
 /*
    Require the configuratio
