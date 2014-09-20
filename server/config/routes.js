@@ -22,6 +22,6 @@ module.exports = function(app,config) {
         Any unhandled route goes to the index page
      */
     app.get('*', function (req, res) {
-        res.render('index');
+        res.render('../../public/app/index');
     });
 }
