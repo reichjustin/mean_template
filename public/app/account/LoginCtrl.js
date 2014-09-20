@@ -1,8 +1,12 @@
-angular.module('app').controller('LoginCtrl', function($scope,$http) {
-    $scope.signin = function(e,p) {
-      var user = { username : $scope.email, password: $scope.password || '' };
-      $http.post('/login',user).then(function(result) {
-        alert(result.data.success);
-      });
+angular.module('app').controller('LoginCtrl', function($scope,$http,NotifierFactory,AuthFactory,UserFactory) {
+    $scope.identity = UserFactory;
+
+    $scope.signin = function() {
+     /*
+        Call the authentication service
+      */
+     AuthFactory.authenticateUser($scope.email,$scope.password).then(function(result) {
+        NotifierFactory.notify(result);
+     });
     };
 });
