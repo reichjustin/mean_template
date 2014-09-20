@@ -18,10 +18,4 @@ module.exports = function(config) {
     });
 
     var User = mongoose.model('User',userSchema);
-
-    User.find().exec(function (err, results) {
-        if (results.length === 0) {
-            User.create( { firstName: 'Justin', lastName: 'Reich', userName: 'reich.justin@gmail.com' });
-        }
-    });
 }
