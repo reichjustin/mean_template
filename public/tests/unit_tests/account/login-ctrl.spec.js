@@ -39,7 +39,7 @@ describe('Unit: LoginCtrl', function() {
        expect(scope.isAuthenticated()).to.equal(undefined);
     });
 
-    it('test the login',function () {
+    it('test the login - authenticated',function () {
 
         //set the mock factory to return a promise
         def.resolve(true);
@@ -60,7 +60,7 @@ describe('Unit: LoginCtrl', function() {
         expect(scope.isAuthenticated()).to.equal(true);
     });
 
-    it('test the login',function () {
+    it('test the login - invalid',function () {
 
         //set the mock factory to return a promise
         def.resolve(false);
