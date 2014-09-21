@@ -1,13 +1,15 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+    BaseSchema = require('./BaseSchema');
 
-var userSchema = mongoose.Schema({
+/*
+  Create the schema for User
+ */
+var UserSchema = mongoose.Schema({
     firstName : String,
     lastName : String,
     userName : String
 });
 
-mongoose.model('User',userSchema);
+//setup the User object to inherit from the BaseSchema
+exports.User = new BaseSchema.BaseSchema("User", UserSchema);
 
-exports.getSchemaAsModel = function() {
-    return mongoose.model('User');
-}

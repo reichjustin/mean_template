@@ -1,6 +1,6 @@
 var passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
-    User = require('../schemas/UserSchema').getSchemaAsModel();
+    User = require('../schemas/UserSchema').User.schemaModel;
 
 module.exports = function() {
     passport.use(new LocalStrategy(
