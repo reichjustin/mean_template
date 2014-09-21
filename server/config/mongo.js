@@ -10,12 +10,4 @@ module.exports = function(config) {
     db.once('open', function callback() {
         console.log('mongo open');
     });
-
-    var userSchema = mongoose.Schema({
-       firstName : String,
-       lastName : String,
-       userName : String
-    });
-
-    var User = mongoose.model('User',userSchema);
 }
