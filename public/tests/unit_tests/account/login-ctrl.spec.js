@@ -31,17 +31,19 @@ describe('Unit: LoginCtrl', function() {
 
     /* This will make sure the scope was initialized */
     it('make sure scope variables properly set', function () {
+        //setup mock to return false
+        mockAuthFactory.isAuthenticated.returns(false);
 
        //make sure the identity is there
-       //expect(scope.isAuthenticated()).to.equal(false);
        expect(scope.email).to.equal(undefined);
        expect(scope.password).to.equal(undefined);
-       expect(scope.isAuthenticated()).to.equal(undefined);
+       expect(scope.isAuthenticated()).to.equal(false);
     });
 
     it('test the login - authenticated',function () {
 
         //set the mock factory to return a promise
+        //also setup the isAuthenticated to return true since it would
         def.resolve(true);
         mockAuthFactory.authenticateUser.returns(def.promise);
         mockAuthFactory.isAuthenticated.returns(true);
