@@ -1,4 +1,4 @@
-angular.module('app').controller('LoginCtrl', function($scope,$http,NotifierFactory,AuthFactory,UserFactory) {
+angular.module('app').controller('LoginCtrl', function($scope,NotifierFactory,AuthFactory,UserFactory) {
     $scope.identity = UserFactory;
 
     $scope.signin = function() {
