@@ -1,7 +1,6 @@
 describe('Unit: AuthFactory', function() {
     var $httpBackend,
-        authFactory,
-        userFactory;
+        authFactory;
 
     beforeEach(module('app'));
 
@@ -9,12 +8,28 @@ describe('Unit: AuthFactory', function() {
 
         $httpBackend = $injector.get('$httpBackend');
         authFactory = $injector.get('AuthFactory');
-        userFactory = $injector.get('UserFactory');
     }));
 
     afterEach(function () {
         $httpBackend.verifyNoOutstandingExpectation();
         $httpBackend.verifyNoOutstandingRequest();
+    });
+
+    /* make sure this factory exists to begin with */
+    it('make sure user factory exists',function () {
+        expect(authFactory).not.to.equal(null);
+    });
+
+    /* There should not be an authenicated user on init */
+    it('make sure user factory is not authenticated yet',function () {
+        expect(authFactory.currentUser).to.equal(undefined);
+        expect(authFactory.isAuthenticated()).to.equal(false);
+    });
+
+    /* setting the current user should return a true auth */
+    it('setting the currentUser will result in auth',function () {
+        authFactory.currentUser = { username : 'test' };
+        expect(authFactory.isAuthenticated()).to.equal(true);
     });
 
     it("should verify a user is properly authenticaed", function () {
@@ -36,19 +51,16 @@ describe('Unit: AuthFactory', function() {
             });
 
         //before the call it shouldnt be authenticated
-        expect(userFactory.currentUser).to.equal(undefined);
-        expect(userFactory.isAuthenticated()).to.equal(false);
+        expect(authFactory.currentUser).to.equal(undefined);
+        expect(authFactory.isAuthenticated()).to.equal(false);
 
-        //calling authenticateUser should return a deferred promise value of true
         authFactory.authenticateUser(user.username,user.password).then(function(data) {
-            //make sure we got a true result
             expect(data).to.equal(true);
 
-            //now that its called it should be authenticated
-            expect(userFactory.currentUser).not.to.equal(undefined);
-            expect(userFactory.isAuthenticated()).to.equal(true);
+            //should still be unauthenticated
+            expect(authFactory.currentUser).not.to.equal(undefined);
+            expect(authFactory.isAuthenticated()).to.equal(true);
         });
-
 
         //flush out the remaining requests
         $httpBackend.flush();
@@ -69,25 +81,36 @@ describe('Unit: AuthFactory', function() {
          */
         $httpBackend.expectPOST('/login', user)
             .respond(function() {
-                return [201,{ "success": false, user: user }];
+                return [201,{  "success": false, user: user  }];
             });
 
         //before the call it shouldnt be authenticated
-        expect(userFactory.currentUser).to.equal(undefined);
-        expect(userFactory.isAuthenticated()).to.equal(false);
+        expect(authFactory.currentUser).to.equal(undefined);
+        expect(authFactory.isAuthenticated()).to.equal(false);
 
-        //calling authenticateUser should return a deferred promise value of false
         authFactory.authenticateUser(user.username,user.password).then(function(data) {
             expect(data).to.equal(false);
 
             //should still be unauthenticated
-            expect(userFactory.currentUser).to.equal(undefined);
-            expect(userFactory.isAuthenticated()).to.equal(false);
+            expect(authFactory.currentUser).to.equal(undefined);
+            expect(authFactory.isAuthenticated()).to.equal(false);
         });
-
 
         //flush out the remaining requests
         $httpBackend.flush();
     });
 
+
+    /* logging out with remove auth */
+    it('calling the logout will remove auth',function () {
+        authFactory.currentUser = { username : 'test' };
+        expect(authFactory.isAuthenticated()).to.equal(true);
+
+        //logout the user
+        authFactory.logOut();
+
+        //now the currentUser should be undefined and not auth
+        expect(authFactory.currentUser).to.equal(undefined);
+        expect(authFactory.isAuthenticated()).to.equal(false);
+    });
 });

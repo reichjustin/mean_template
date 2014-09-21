@@ -45,7 +45,7 @@ module.exports = function(config) {
 
       // optionally, configure the reporter
       coverageReporter: {
-          type : 'text'
+          type : 'text-summary'
       },
 
     // web server port
@@ -62,7 +62,7 @@ module.exports = function(config) {
 
 
     // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: false,
+    autoWatch: true,
 
 
     // start these browsers

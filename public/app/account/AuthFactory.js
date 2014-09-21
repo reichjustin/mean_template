@@ -1,19 +1,28 @@
-angular.module('app').factory('AuthFactory', function($http, $q, UserFactory) {
+angular.module('app').factory('AuthFactory', function($http,$q) {
     return {
+      currentUser: undefined,
       authenticateUser: function(username,password) {
-          var defer = $q.defer();
+          var that = this,  def = $q.defer();
 
           $http.post('/login',{ username: username, password: password }).then(function(result) {
               if (result.data.success) {
-                  UserFactory.currentUser = result.data.user;
+                  that.currentUser = result.data.user;
 
-                  defer.resolve(true);
+                  def.resolve(true);
               } else {
-                  defer.resolve(false);
+                  that.currentUser = undefined;
+
+                  def.resolve(false);
               }
           });
 
-          return defer.promise;
+          return def.promise;
+      },
+      isAuthenticated : function () {
+        return !!this.currentUser;
+      },
+      logOut: function() {
+        this.currentUser = undefined;
       }
     };
 });

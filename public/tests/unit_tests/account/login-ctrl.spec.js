@@ -1,10 +1,27 @@
-describe('Unit: LoginCtrl', function() {
-    beforeEach(module('app'));
-    var ctrl, scope;
 
-    beforeEach(inject(function ($controller, $rootScope) {
+describe('Unit: LoginCtrl', function() {
+
+
+    var ctrl, scope,def, mockAuthFactory, mockNotifierFactory;
+
+    beforeEach(module('app'));
+    beforeEach(inject(function ($controller, $rootScope, $q) {
+        def = $q.defer();
+
+        /* Setup a stub for the AuthFactory */
+         mockAuthFactory = sinon.stub({
+            authenticateUser : function() { },
+            isAuthenticated : function() { }
+        });
+
+
+        //inject in our scope and mock auth factory object
         scope = $rootScope.$new();
-        ctrl  = $controller('LoginCtrl', { $scope: scope });
+        ctrl  = $controller('LoginCtrl',
+            {
+                $scope: scope,
+                AuthFactory: mockAuthFactory
+            });
     }));
 
     /* This should verify that the LoginCtrl exists as part of the app module */
@@ -14,13 +31,52 @@ describe('Unit: LoginCtrl', function() {
 
     /* This will make sure the scope was initialized */
     it('make sure scope variables properly set', function () {
+
        //make sure the identity is there
-       expect(scope.identity).not.to.equal(undefined);
+       //expect(scope.isAuthenticated()).to.equal(false);
        expect(scope.email).to.equal(undefined);
        expect(scope.password).to.equal(undefined);
+       expect(scope.isAuthenticated()).to.equal(undefined);
     });
 
-    it('make sure scope variables properlay set',inject( function (NotifierFactory,AuthFactory) {
+    it('test the login',function () {
 
-    }));
+        //set the mock factory to return a promise
+        def.resolve(true);
+        mockAuthFactory.authenticateUser.returns(def.promise);
+        mockAuthFactory.isAuthenticated.returns(true);
+
+
+        /*
+            set the scope values
+            since the front end validation will not allow an invalid email no need to check anything else
+         */
+        scope.email = "reich.justin@gmail.com";
+        scope.password = "password";
+
+        //call the signin
+        scope.signin();
+
+        expect(scope.isAuthenticated()).to.equal(true);
+    });
+
+    it('test the login',function () {
+
+        //set the mock factory to return a promise
+        def.resolve(false);
+        mockAuthFactory.authenticateUser.returns(def.promise);
+        mockAuthFactory.isAuthenticated.returns(false);
+
+        /*
+         set the scope values
+         since the front end validation will not allow an invalid email no need to check anything else
+         */
+        scope.email = "reich.justin@gmail.com";
+        scope.password = "password";
+
+        //call the signin
+        scope.signin();
+
+        expect(scope.isAuthenticated()).to.equal(false);
+    });
 });
