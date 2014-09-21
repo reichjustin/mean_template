@@ -1,10 +1,13 @@
 var chai = require('chai'),
-    chaiAsPromised=require('chai-as-promised');
+    chaiAsPromised = require('chai-as-promised');
 
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 
 describe('login control', function() {
+    /*
+        This is an e2e integration test for a valid login
+     */
     it('test valid email', function() {
         //navigate to the index page
         browser.get('http://localhost:3030');
@@ -20,12 +23,15 @@ describe('login control', function() {
         element(by.model("email")).sendKeys("reich.justin@gmail.com");
 
         //click the signin!
-        element( by.css('[ng-click="signin()"]') ).click();
+        element(by.css('[ng-click="signin()"]') ).click();
 
         //it should now be hidden!
         expect(hiddenLoginControls.count()).to.eventually.equal(1);
     });
 
+    /*
+        This is an e2e integration test for an invalid login
+     */
     it('test invalid email', function() {
         //navigate to the index page
         browser.get('http://localhost:3030');
@@ -41,7 +47,7 @@ describe('login control', function() {
         element(by.model("email")).sendKeys("invalid@gmail.com");
 
         //click the signin!
-        element( by.css('[ng-click="signin()"]') ).click();
+        element(by.css('[ng-click="signin()"]') ).click();
 
         //it should still not be hidden!
         expect(hiddenLoginControls.count()).to.eventually.equal(0);
