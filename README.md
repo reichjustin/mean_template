@@ -1,4 +1,4 @@
 mean_template
 =============
 
-A template to start MEAN apps
+Started by working thru "Building AngularJS and Node.Js Apps with the MEAN Stack" (http://beta.pluralsight.com/courses/building-angularjs-nodejs-apps-mean)
