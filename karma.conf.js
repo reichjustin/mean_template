@@ -21,12 +21,13 @@ module.exports = function(config) {
         'public/vendor/angular-route/angular-route.js',
         'public/vendor/toastr/toastr.js',
         'public/app/app.js',
-        'public/app/**/*.js'
+        'public/app/**/*.js',
+        'public/tests/unit_tests/**/*.js'
     ],
-
 
     // list of files to exclude
     exclude: [
+
     ],
 
 
@@ -40,11 +41,11 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress', 'coverage'],
+    reporters: ['dots', 'coverage'],
+
       // optionally, configure the reporter
       coverageReporter: {
-          type : 'html',
-          dir : 'coverage/'
+          type : 'text'
       },
 
     // web server port
@@ -68,6 +69,15 @@ module.exports = function(config) {
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     browsers: ['Chrome'],
 
+    plugins: [
+        'karma-coverage',
+        'karma-mocha',
+        'karma-chai',
+        'karma-sinon',
+        'karma-sinon-chai',
+        'karma-chai-plugins',
+        'karma-chrome-launcher'
+    ],
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits

@@ -1,0 +1,7 @@
+(function(window) {
+
+%CONTENT%
+
+window.__karma__.start = createNgScenarioStartFn(window.__karma__, angular.scenario.setUpAndRun);
+
+})(window);

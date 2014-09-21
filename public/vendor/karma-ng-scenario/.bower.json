@@ -1,0 +1,15 @@
+{
+  "name": "karma-ng-scenario",
+  "homepage": "https://github.com/karma-runner/karma-ng-scenario",
+  "version": "0.1.0",
+  "_release": "0.1.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.1.0",
+    "commit": "de71ee63b739f4dfa1cf268e835cdbcac6b34917"
+  },
+  "_source": "git://github.com/karma-runner/karma-ng-scenario.git",
+  "_target": "~0.1.0",
+  "_originalSource": "karma-ng-scenario",
+  "_direct": true
+}
