@@ -23,4 +23,4 @@ describe('Unit: LoginCtrl', function() {
     it('make sure scope variables properlay set',inject( function (NotifierFactory,AuthFactory) {
 
     }));
-})
+});
