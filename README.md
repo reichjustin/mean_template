@@ -10,6 +10,7 @@ A nice little starter app for MEAN apps with seperated code, authentication and 
 There are both Karam/Mocha tests and ProtractorJS e2e tests setup.
 
 karma: karma start karma.conf.js
+
 protractor: protractor protractor.conf.js
 
 You will need protractor install globally to perform that.
