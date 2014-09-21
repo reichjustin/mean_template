@@ -25,7 +25,7 @@ module.exports = function(app,config) {
     }));
     app.use(session({ secret: 'mean', resave: true,saveUninitialized: true }));
     app.use(passport.initialize());
-    app.use(passport.session());
+   // app.use(passport.session());
     app.use(stylus.middleware({ src: config.rootPath + '/public', compile: compile }));
 
 //these are public so let it in
