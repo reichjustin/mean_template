@@ -6,8 +6,17 @@ var express = require('express'),
 
 describe("Login Route", function(){
 
+    var stub;
+    beforeEach(function() {
+        stub = sinon.stub(app,'post');
+    });
+
+    afterEach(function() {
+        stub.restore();
+    });
+
     it ('should make a POST to login', function() {
-        var stub = sinon.stub(app,'post');
+        //setup the stub returns
         stub.withArgs('/login').returns(true);
         stub.withArgs('/invalidpost').returns(false);
         stub.returns(false);

@@ -5,8 +5,17 @@ var express = require('express'),
 
 describe('routes config file tests',function() {
 
+    var stub;
+    beforeEach(function() {
+        stub = sinon.stub(app,'get');
+    });
+
+    afterEach(function() {
+        stub.restore();
+    });
+
     it ('verify the routes stuff',function() {
-        var stub = sinon.stub(app,'get');
+        //setup the stub routes
         stub.withArgs('/partials/test').returns('/test');
         stub.withArgs('invalid/route').returns('/');
         stub.withArgs('*').returns('/');
