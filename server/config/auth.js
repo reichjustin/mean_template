@@ -7,8 +7,6 @@ exports.authenticate = function(req, res, next) {
      */
 
     var auth = passport.authenticate('local', function(err, user) {
-
-        console.log('test');
         //if there is an error, raise it
         if(err) { return next(err); }
 

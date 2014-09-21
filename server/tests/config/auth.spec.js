@@ -44,15 +44,46 @@ describe("Auth Config",  function(){
     });
 
     it ('should make a POST to login should be valid', function() {
+        /*
+           make a dummy req object that has a logIn method
+         */
+        var req = {
+            logIn: function(err) {
+                return err;
+            }
+        };
+
         stub.withArgs('local').returns(function()
         {
-            return { err: undefined, user: true };
+            return req.logIn(undefined);
         });
 
         /*
          test an error from password
          */
         var _auth = require('../../config/auth');
-        expect(_auth.authenticate().user).to.equal(true);
+        expect(_auth.authenticate(req)).to.equal(undefined);
+    });
+
+    it ('should make a POST to login should be have been invalid', function() {
+        /*
+         make a dummy req object that has a logIn method
+         */
+        var req = {
+            logIn: function(err) {
+                return err;
+            }
+        };
+
+        stub.withArgs('local').returns(function()
+        {
+            return req.logIn(true);
+        });
+
+        /*
+         test an error from password
+         */
+        var _auth = require('../../config/auth');
+        expect(_auth.authenticate(req)).to.equal(true);
     });
 });
