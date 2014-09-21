@@ -11,5 +11,5 @@ var UserSchema = mongoose.Schema({
 });
 
 //setup the User object to inherit from the BaseSchema
-exports.User = new BaseSchema.BaseSchema("User", UserSchema);
+exports.User = new BaseSchema.CreateBaseSchema("User", UserSchema);
 

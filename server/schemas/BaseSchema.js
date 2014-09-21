@@ -5,6 +5,6 @@ var mongoose = require('mongoose');
    it will take in the name of the model and the scehma to create
    the nset to a local variable
  */
-exports.BaseSchema = function(schemaName, schema) {
+exports.CreateBaseSchema = function(schemaName, schema) {
     this.schemaModel = mongoose.model(schemaName,schema);
 };
