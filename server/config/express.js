@@ -19,8 +19,11 @@ module.exports = function(app,config) {
     app.set('view engine', 'jade');
     app.use(logger('dev'));
     app.use(cookieParser());
-    app.use(bodyParser());
-    app.use(session({ secret: 'mean' }));
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({
+        extended: true
+    }));
+    app.use(session({ secret: 'mean', resave: true,saveUninitialized: true }));
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(stylus.middleware({ src: config.rootPath + '/public', compile: compile }));
