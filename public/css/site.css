@@ -1,19 +1,24 @@
 body {
-  padding-top: 61px;
+  padding-top: 80px;
 }
 .navbar-header a.navbar-brand {
   margin-top: -15px;
-  margin-bottom: -20px;
+  margin-bottom: -20x;
 }
-.navbar-header a.navbar-brand h6 {
+h6 {
   color: #ccc;
 }
-.navbar-header a.navbar-brand footer {
+.footer {
   padding-left: 15px;
+  bottom: 0;
+  height: 25px;
+  position: absolute;
+  width: 100%;
   padding-right: 15px;
-}
-.navbar-header a.navbar-brand footer p {
-  border-top: 1px solid #d7e0e2;
+  background-color: #f8f8f8;
+  border: 1px solid #e7e7e7;
+  text-align: center;
+  vertical-align: middle;
 }
 .navbar-form .form-group {
   margin-left: 10px;
@@ -23,4 +28,12 @@ body {
 }
 .toast-top-right {
   top: 70px;
+}
+.invalid-login {
+  height: 10px;
+  width: 100%;
+  vertical-align: top;
+}
+.jumbotron-actions {
+  height: 375px;
 }

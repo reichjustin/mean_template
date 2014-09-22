@@ -1,5 +1,8 @@
 angular.module('app').controller('SignupCtrl', function($scope,$q,AuthFactory) {
 
+    //setup the show existing username
+    $scope.showExistingUsername = false;
+
     /*
      Promise method that will try to create an account if a username doesnt exist
      */
@@ -7,7 +10,15 @@ angular.module('app').controller('SignupCtrl', function($scope,$q,AuthFactory) {
         var defer = $q.defer();
 
         //make the call to the create account on the AuthFactory
-        AuthFactory.createAccount($scope.username,$scope.username).then(function(data) {
+        AuthFactory.createAccount($scope.email,$scope.email).then(function(data) {
+            $scope.showExistingUsername = !data;
+
+            if (data) {
+                $scope.email = "";
+                $scope.firstname = "";
+                $scope.lastname = "";
+            }
+
             defer.resolve(data);
         });
 

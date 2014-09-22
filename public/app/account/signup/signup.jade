@@ -1,8 +1,12 @@
-form(ng-controller="SignupCtrl")
-    .form-group
-        input.form-control(placeholder='Email', ng-model='email', type='email')
-    .form-group
-        input.form-control(placeholder='First Name', ng-model='firstname', type='text')
-    .form-group
-        input.form-control(placeholder='First Last', ng-model='lastname', type='text')
-    button.btn.btn-primary(ng-click="signup()",id='signup') Signup
+form(ng-controller="SignupCtrl",id="signupForm",name='signupForm')
+    fieldset
+        legend New Users
+        .alert.alert-danger(ng-show='showExistingUsername')
+            span Email already exists
+        .form-group
+            input.form-control(placeholder='Email', ng-model='email', type='email',required=true)
+        .form-group
+            input.form-control(placeholder='First Name', ng-model='firstname', type='text',required=true)
+        .form-group
+            input.form-control(placeholder='First Last', ng-model='lastname', type='text',required=true)
+        button.btn.btn-primary.pull-right(ng-click="signup()",id='signup',ng-disabled='signupForm.$invalid') Signup

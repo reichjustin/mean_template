@@ -1,5 +1,9 @@
 .container(id='main-content', name='main-content')
-    .jumbotron
-        h1 MEAN
-        p THIS IS IT
-        div(ng-include="'/partials/account/signup/signup'")
+    .container-fluid
+        .row-fluid
+            .col-md-6.pull-left
+                .jumbotron.jumbotron-actions
+                    div(ng-include="'/partials/account/signup/signup'")
+            .col-md-6.pull-right
+                .jumbotron.jumbotron-actions
+                    div(ng-include="'/partials/account/login/login'")

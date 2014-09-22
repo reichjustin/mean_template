@@ -23,7 +23,7 @@ exports.createUser = function(req,res,next) {
         2) if no users exist, create!
         3) finally is everything goes well, auth that user before sending it all back
      */
-    _user.findOne({userName: req.query.username}).exec(function(err, user) {
+    _user.findOne({userName: req.body.username}).exec(function(err, user) {
         //if there is an error, raise it
         if(err) { return next(err); }
 
@@ -33,7 +33,7 @@ exports.createUser = function(req,res,next) {
             res.send({ success: false });
         } else {
             //make the promise call to create the new user
-            _user.create({ userName: req.query.username, firstName: req.query.firstname, lastName: req.query.lastname}, function(err, user) {
+            _user.create({ userName: req.body.username, firstName: req.body.firstname, lastName: req.body.lastname}, function(err, user) {
                 //if there is an error, raise it
                 if(err) { return next(err); }
 

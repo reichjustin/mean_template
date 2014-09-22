@@ -1,7 +1,10 @@
-.navbar-right(ng-controller="LoginCtrl")
-    form.navbar-form(ng-hide='isAuthenticated()')
+form(ng-controller="LoginCtrl",ng-hide='isAuthenticated()',id='loginForm',name='loginForm')
+    fieldset
+        legend Existing Users
+        .alert.alert-danger(ng-show='showInvalidLogin')
+            span The email/password comboniation is invalid.
         .form-group
-            input.form-control(placeholder='Email', ng-model='email', type='email')
+            input.form-control(placeholder='Email', ng-model='email', type='email',required=true,name="lgEmail",id="lgEmail")
         .form-group
-            input.form-control(placeholder='Password', ng-model='password',type='password')
-        button.btn.btn-primary(ng-click="signin()",id='login') Signin
+            input.form-control(placeholder='Password', ng-model='password',type='password',required=true,name="lgPassword",id="lgPassword")
+        button.btn.btn-primary.pull-right(ng-click="signin()",id='login',ng-disabled="loginForm.$invalid") Login

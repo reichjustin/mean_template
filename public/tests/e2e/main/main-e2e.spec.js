@@ -1,18 +1,29 @@
-var chai = require('chai'),
-    chaiAsPromised=require('chai-as-promised');
+// Start with a webdriver instance:
+var webdriver = require('selenium-webdriver'),
+    chai      = require('chai'),
+    expect    = chai.expect,
+    chaiWebdriver = require('chai-webdriver');
 
-chai.use(chaiAsPromised);
-var expect = chai.expect;
+// And you're good to go!
+var driver = new webdriver.Builder().
+    withCapabilities(webdriver.Capabilities.chrome()).
+    build();
+chai.use(chaiWebdriver(driver));
 
 describe('main layout page', function() {
+
+    beforeEach(function () {
+        driver.get('http://localhost:3030');
+    });
+
+    afterEach(function () {
+        driver.quit();
+    });
+
     it('should have a container with id main-content', function() {
-        //navigate to the index page
-        browser.get('http://localhost:3030');
-
-        //get the main content element
-        var elm = $$("#main-content");
-
-        //it should have 1
-        expect(elm.count()).to.eventually.equal(1);
+        driver.wait(function() {
+            //it should have 1
+            element(by.id("lgEmail")).sendKeys("A");
+        }, 200);
     });
 });

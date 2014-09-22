@@ -1,17 +1,13 @@
 extend ../app/shared/layout
 
 block main-content
-    .navbar.navbar-inverse.navbar-fixed-top
-        .container
-            .navbar-header
-                a.navbar-brand(href='/') MEAN
-            .navbar-collapse.collapse
-                ul.nav.navbar-nav
-                    li
-                        a(href='/') Home
-                div(ng-include="'/partials/account/login/login'")
+    .navbar.navbar-default.navbar-fixed-top
+        .navbar-header
+            .navbar-text MEAN Template
+        .navbar-text.pull-right
+            button.btn.btn-default(ng-controller="LoginCtrl",ng-hide="!isAuthenticated()",ng-click="logout()") Logout
     section.content
         div(ng-view)
-
-    footer.container.text-center
-        p footer here
+    .footer
+        .container
+            span squirrel
