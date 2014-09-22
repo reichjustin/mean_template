@@ -45,11 +45,6 @@ describe('Unit: SignupCtrl', function() {
                  return [201,{ "success": true, user: expectedUser }];
              });
 
-         //set the mock factory to return a promise
-         //def.resolve(true);
-         //mockAuthFactory.createAccount.returns(def.promise);
-         //mockAuthFactory.isAuthenticated.returns(true);
-
          //call the signup
          scope.email = "test@test.com";
 
@@ -69,11 +64,6 @@ describe('Unit: SignupCtrl', function() {
             .respond(function() {
                 return [201,{ "success": false, user: undefined }];
             });
-
-        //set the mock factory to return a promise
-        //def.resolve(true);
-        //mockAuthFactory.createAccount.returns(def.promise);
-        //mockAuthFactory.isAuthenticated.returns(true);
 
         //call the signup
         scope.email = "test@test.com";
