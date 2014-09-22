@@ -1,0 +1,8 @@
+form(ng-controller="SignupCtrl")
+    .form-group
+        input.form-control(placeholder='Email', ng-model='email', type='email')
+    .form-group
+        input.form-control(placeholder='First Name', ng-model='firstname', type='text')
+    .form-group
+        input.form-control(placeholder='First Last', ng-model='lastname', type='text')
+    button.btn.btn-primary(ng-click="signup()",id='signup') Signup

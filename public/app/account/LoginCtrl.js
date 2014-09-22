@@ -15,8 +15,4 @@ angular.module('app').controller('LoginCtrl', function($scope,AuthFactory) {
     $scope.isAuthenticated = function() {
         return AuthFactory.isAuthenticated();
     };
-
-    $scope.signup = function(username,password) {
-        return AuthFactory.createAccount(username,password);
-    };
 });

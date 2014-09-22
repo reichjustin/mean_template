@@ -82,37 +82,4 @@ describe('Unit: LoginCtrl', function() {
 
         expect(scope.isAuthenticated()).to.equal(false);
     });
-
-
-    it('test the signup - valid',function () {
-
-        var expectedUser = { username: "test@test.com", password: "password" };
-
-        //set the mock factory to return a promise
-        def.resolve(true);
-        mockAuthFactory.createAccount.returns(def.promise);
-        mockAuthFactory.isAuthenticated.returns(true);
-
-        //call the signup
-        scope.signup(expectedUser.username, expectedUser.password);
-
-        //assert there is an authenticated user
-        assert.isTrue(scope.isAuthenticated(), "there should now be an authenticated user");
-    });
-
-    it('test the signup - invalid',function () {
-
-        var expectedUser = { username: "test@test.com", password: "password" };
-
-        //set the mock factory to return a promise
-        def.resolve(false);
-        mockAuthFactory.createAccount.returns(def.promise);
-        mockAuthFactory.isAuthenticated.returns(false);
-
-        //call the signup
-        scope.signup(expectedUser.username, expectedUser.password);
-
-        //assert there is no authenticated user
-        assert.isFalse(scope.isAuthenticated(), "there should not be an authenticated user");
-    });
 });
