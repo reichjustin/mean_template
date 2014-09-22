@@ -1,29 +1,19 @@
-// Start with a webdriver instance:
-var webdriver = require('selenium-webdriver'),
-    chai      = require('chai'),
-    expect    = chai.expect,
-    chaiWebdriver = require('chai-webdriver');
+var  chai      = require('chai'),
+    chaiPromise = require("chai-as-promised"),
+    expect    = chai.expect;
 
-// And you're good to go!
-var driver = new webdriver.Builder().
-    withCapabilities(webdriver.Capabilities.chrome()).
-    build();
-chai.use(chaiWebdriver(driver));
+//tie in the chai as promise to the existing chai library
+chai.use(chaiPromise);
 
 describe('main layout page', function() {
-
     beforeEach(function () {
-        driver.get('http://localhost:3030');
-    });
+        browser.driver.ignoreSynchronization = true;
 
-    afterEach(function () {
-        driver.quit();
+        //go to the root page
+        browser.get('http://localhost:3030');
     });
 
     it('should have a container with id main-content', function() {
-        driver.wait(function() {
-            //it should have 1
-            element(by.id("lgEmail")).sendKeys("A");
-        }, 200);
+        expect(element(by.id("main-content")).getText()).to.not.eventually.equal('');
     });
 });

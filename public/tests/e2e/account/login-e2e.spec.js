@@ -1,109 +1,109 @@
-// Start with a webdriver instance:
-var webdriver = require('selenium-webdriver'),
-    chai      = require('chai'),
-    expect    = chai.expect,
-    chaiWebdriver = require('chai-webdriver');
+var  chai      = require('chai'),
+     chaiPromise = require("chai-as-promised"),
+     expect    = chai.expect;
 
-// And you're good to go!
-var driver = new webdriver.Builder().
-    withCapabilities(webdriver.Capabilities.chrome()).
-    build();
-chai.use(chaiWebdriver(driver));
+//tie in the chai as promise to the existing chai library
+chai.use(chaiPromise);
 
 describe('login control', function() {
+    var emailTextBox, passwordTextBox,
+        loginForm, loginButton,  alert;
 
     beforeEach(function () {
+        browser.driver.ignoreSynchronization = true;
 
+        //go to the root page
+        browser.get('http://localhost:3030');
 
-    });
-
-    afterEach(function () {
-        driver.quit();
+        //get the elements to test
+        loginForm = element(by.id('loginForm'));
+        emailTextBox = loginForm.element(by.model('email'));
+        passwordTextBox = loginForm.element(by.model('password'));
+        loginButton = loginForm.element(by.css('.btn'));
+        alert = loginForm.element(by.css('.alert'));
     });
 
    it ('initialize - check all defaults',function() {
-       driver.get('http://localhost:3030');
-       driver.wait(function() {
-           return false;
-       }, 2000);
 
+       //the login form should be invalid
+       expect(loginForm.getAttribute('class')).to.eventually.contain('ng-invalid');
 
+       //the email textbox should be empty
+       expect(emailTextBox.getAttribute('value')).to.eventually.equal('');
+       expect(emailTextBox.getAttribute('class')).to.eventually.contain('ng-invalid');
 
-        //the login button should be disabled
-        expect(element("#loginForm button")).dom.to.be.disabled();
+       //the password textbox should be empty
+       expect(passwordTextBox.getAttribute('value')).to.eventually.equal('');
+       expect(passwordTextBox.getAttribute('class')).to.eventually.contain('ng-invalid');
 
+       //the alert should be hidden
+       expect(alert.getAttribute('class')).to.eventually.contain('ng-hide');
 
-
-        //the invalid login alert should not be visible
-//        expect("#loginForm .alert").dom.not.to.be.visible();
-
-        //the email textbox should be invalid
-  //      expect("#lgEmail").dom.to.have.htmlClass('ng-invalid');
-
-        //the password textbox should be invalid
-    //    expect("#lgPassword").dom.to.have.htmlClass('ng-invalid');
-
-        //the form should be invalid
-      //  expect("#loginForm").dom.to.have.htmlClass('ng-invalid');
+       //the login button should be disabled
+       expect(loginButton.getAttribute('disabled')).to.not.eventually.equal(undefined);
     });
 
-    //it ('email validation - enter invalid email',function() {
+    it ('email validation - enter invalid email',function() {
 
-        //the login button should be disabled
-      //  expect("#loginForm button").dom.to.be.disabled();
+        //the defauls should be empty
+        //invalid
+        //invalid required
+        //valid email
+        expect(emailTextBox.getAttribute('value')).to.eventually.equal('');
+        expect(emailTextBox.getAttribute('class')).to.eventually.contain('ng-invalid');
+        expect(emailTextBox.getAttribute('class')).to.eventually.contain('ng-invalid-required');
+        expect(emailTextBox.getAttribute('class')).to.eventually.contain('ng-valid-email');
 
-        //the email textbox should be invalid
-      //  expect("#lgEmail").dom.to.have.htmlClass('ng-invalid');
-       // expect("#lgEmail").dom.to.have.htmlClass('ng-invalid-required');
-       // expect("#lgEmail").dom.to.have.htmlClass('ng-valid-email');
+        //set the textbox to an invalid email
+        emailTextBox.sendKeys('invalid');
 
-        //the form should be invalid
-        //expect("#loginForm").dom.to.have.htmlClass('ng-invalid');
+        //the textbox should have a value now
+        //should be invalid still
+        //should pass the required validation
+        //should fail the email address validation
+        expect(emailTextBox.getAttribute('value')).to.eventually.equal('invalid');
+        expect(emailTextBox.getAttribute('class')).to.eventually.contain('ng-invalid');
+        expect(emailTextBox.getAttribute('class')).to.not.eventually.contain('ng-invalid-required');
+        expect(emailTextBox.getAttribute('class')).to.not.eventually.contain('ng-valid-email');
+        expect(emailTextBox.getAttribute('class')).to.eventually.contain('ng-invalid-email');
+    });
 
-           // element(by.id('lgEmail')).sendKeys("aa")
-
-      // element(by.id('lgEmail')).sendKeys("aa")
-
-
-        //set the email to an invalid email address\
-       // element(by.id("lgEmail")).sendKeys("invalid@gmail.com");
-        //the form should be invalid
-       // expect("#lgEmail").dom.to.have.htmlClass('ng-invalid');
-       // expect("#lgEmail").dom.not.to.have.htmlClass('ng-invalid-required');
-        //expect("#lgEmail").dom.not.to.have.htmlClass('ng-valid-email');
-
-        //the form should still be invalid
-        //expect("#loginForm").dom.to.have.htmlClass('ng-invalid');
-
-        //the login button should still be disabled
-      //  expect("#loginForm button").dom.to.be.disabled();
-   // });
-/*
     it ('email validation - enter valid email',function() {
 
-        //the email textbox should be invalid
-        expect("#lgEmail").dom.to.have.htmlClass('ng-invalid');
-        expect("#lgEmail").dom.to.have.htmlClass('ng-invalid-required');
-        expect("#lgEmail").dom.to.have.htmlClass('ng-valid-email');
+        //the defauls should be empty
+        //invalid
+        //invalid required
+        //valid email
+        expect(emailTextBox.getAttribute('value')).to.eventually.equal('');
+        expect(emailTextBox.getAttribute('class')).to.eventually.contain('ng-invalid');
+        expect(emailTextBox.getAttribute('class')).to.eventually.contain('ng-invalid-required');
+        expect(emailTextBox.getAttribute('class')).to.eventually.contain('ng-valid-email');
 
-        //set a valid email
+        //set the textbox to an invalid email
+        emailTextBox.sendKeys('valid@valid.com');
 
-        //reverse test
-        expect("#lgEmail").dom.not.to.have.htmlClass('ng-invalid');
-        expect("#lgEmail").dom.not.to.have.htmlClass('ng-invalid-required');
-        expect("#lgEmail").dom.to.have.htmlClass('ng-valid-email');
+        //the textbox should have a value now
+        //should be valid
+        //should pass the required validation
+        //should pass the email address validation
+        expect(emailTextBox.getAttribute('value')).to.eventually.equal('valid@valid.com');
+        expect(emailTextBox.getAttribute('class')).to.eventually.contain('ng-valid');
+        expect(emailTextBox.getAttribute('class')).to.not.eventually.contain('ng-invalid-required');
+        expect(emailTextBox.getAttribute('class')).to.eventually.contain('ng-valid-email');
+        expect(emailTextBox.getAttribute('class')).to.not.eventually.contain('ng-invalid-email');
     });
 
     it ('password validation - enter a password',function() {
 
         //the password textbox should be invalid
-        expect("#lgPassword").dom.to.have.htmlClass('ng-invalid');
-        expect("#lgPassword").dom.to.have.htmlClass('ng-invalid-required');
+        expect(passwordTextBox.getAttribute('value')).to.eventually.equal('');
+        expect(passwordTextBox.getAttribute('class')).to.eventually.contain('ng-invalid');
 
         //set a valid password
+        passwordTextBox.sendKeys("password");
 
-        //reverse test
-        expect("#lgPassword").dom.not.to.have.htmlClass('ng-invalid');
-        expect("#lgPassword").dom.not.to.have.htmlClass('ng-invalid-required');
-    });*/
+        //the password textbox should now be valid
+        expect(passwordTextBox.getAttribute('value')).to.eventually.equal('password');
+        expect(passwordTextBox.getAttribute('class')).to.eventually.contain('ng-valid');
+    });
 });
