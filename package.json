@@ -42,7 +42,6 @@
     "selenium-webdriver": "^2.43.5",
     "sinon": "^1.10.3",
     "sinon-chai": "^2.5.0",
-    "stylus": "^0.48.1",
-    "travis-cov": "^0.2.5"
+    "stylus": "^0.48.1"
   }
 }

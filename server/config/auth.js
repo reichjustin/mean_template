@@ -1,4 +1,5 @@
-var passport = require('passport');
+var passport = require('passport')
+    UserSchema = require('../schemas/UserSchema');
 
 exports.authenticate = function(req, res, next) {
 
@@ -17,9 +18,13 @@ exports.authenticate = function(req, res, next) {
         req.logIn(user, function(err) {
             if(err) { return next(err); }
             res.send({ success: true, user: user });
-        })
+        });
     })
 
     //return the auth fn
     return auth(req, res, next);
+};
+
+exports.signup = function(req, res, next) {
+    return UserSchema.createUser(req,res,next);
 };

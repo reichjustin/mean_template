@@ -113,4 +113,55 @@ describe('Unit: AuthFactory', function() {
         expect(authFactory.currentUser).to.equal(undefined);
         expect(authFactory.isAuthenticated()).to.equal(false);
     });
+
+    it ('calling create account will create a new account', function() {
+        var expectedUser = { username: "test@test.com", firstname: "test@test.com", lastname: "test@test.com" };
+
+        /*
+         On the login, catch it and return some bad data!
+         */
+        $httpBackend.expectPOST('/signup', expectedUser)
+            .respond(function() {
+                return [201,{  "success": true, user: expectedUser  }];
+            });
+
+        authFactory.createAccount(expectedUser.username, expectedUser.password)
+            .then(function(data) {
+                /*
+                 do assertions
+                 */
+                assert.isTrue(data, "result promise should return true")
+                assert.isTrue(authFactory.isAuthenticated(), "there should be an authenticated user")
+                assert.deepEqual(expectedUser,authFactory.currentUser, "he returned user should == authed user");
+            });
+
+        //flush out the remaining requests
+        $httpBackend.flush();
+    });
+
+    it ('calling create account should not create duplicate emails', function() {
+        var expectedUser = { username: "test@test.com", firstname: "test@test.com", lastname: "test@test.com" };
+
+        /*
+         On the login, catch it and return some bad data!
+         */
+        $httpBackend.expectPOST('/signup', expectedUser)
+            .respond(function() {
+                return [201,{  "success": false, user: undefined  }];
+            });
+
+        authFactory.createAccount(expectedUser.username, expectedUser.password)
+            .then(function(data) {
+
+                /*
+                 do assertions
+                 */
+                assert.isFalse(data, "result promise should return false")
+                assert.isFalse(authFactory.isAuthenticated(), "there should not be any authenticared users")
+                assert.equal(undefined,authFactory.currentUser, "current user should be undefined since");
+            });
+
+        //flush out the remaining requests
+        $httpBackend.flush();
+    });
 });
