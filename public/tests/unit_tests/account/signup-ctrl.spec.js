@@ -2,12 +2,11 @@
 describe('Unit: SignupCtrl', function() {
 
 
-    var ctrl, scope,def, mockAuthFactory;
+    var ctrl, scope;
 
     beforeEach(module('app'));
 
     beforeEach(inject(function ($injector) {
-
         $httpBackend = $injector.get('$httpBackend');
     }));
 

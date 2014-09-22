@@ -2,26 +2,26 @@
 describe('Unit: LoginCtrl', function() {
 
 
-    var ctrl, scope,def, mockAuthFactory, mockNotifierFactory;
+    var ctrl, scope,def, mockAuthFactory;
 
     beforeEach(module('app'));
-    beforeEach(inject(function ($controller, $rootScope, $q) {
-        def = $q.defer();
 
-        /* Setup a stub for the AuthFactory */
-         mockAuthFactory = sinon.stub({
-            authenticateUser : function() { },
-            isAuthenticated : function() { },
-            createAccount: function() { }
-        });
+    beforeEach(inject(function ($injector) {
+        $httpBackend = $injector.get('$httpBackend');
+    }));
 
+    afterEach(function () {
+        $httpBackend.verifyNoOutstandingExpectation();
+        $httpBackend.verifyNoOutstandingRequest();
+    });
+
+    beforeEach(inject(function ($controller, $rootScope) {
 
         //inject in our scope and mock auth factory object
         scope = $rootScope.$new();
         ctrl  = $controller('LoginCtrl',
             {
-                $scope: scope,
-                AuthFactory: mockAuthFactory
+                $scope: scope
             });
     }));
 
@@ -32,9 +32,6 @@ describe('Unit: LoginCtrl', function() {
 
     /* This will make sure the scope was initialized */
     it('make sure scope variables properly set', function () {
-        //setup mock to return false
-        mockAuthFactory.isAuthenticated.returns(false);
-
        //make sure the identity is there
        expect(scope.email).to.equal(undefined);
        expect(scope.password).to.equal(undefined);
@@ -43,12 +40,12 @@ describe('Unit: LoginCtrl', function() {
 
     it('test the login - authenticated',function () {
 
-        //set the mock factory to return a promise
-        //also setup the isAuthenticated to return true since it would
-        def.resolve(true);
-        mockAuthFactory.authenticateUser.returns(def.promise);
-        mockAuthFactory.isAuthenticated.returns(true);
+        var expectedUser = { username: "reich.justin@gmail.com", password: "password" };
 
+        $httpBackend.expectPOST('/login', expectedUser)
+            .respond(function() {
+                return [201,{ "success": true, user: expectedUser }];
+            });
 
         /*
             set the scope values
@@ -58,17 +55,22 @@ describe('Unit: LoginCtrl', function() {
         scope.password = "password";
 
         //call the signin
-        scope.signin();
+        scope.signin().then(function(data) {
+            assert.isTrue(data, "should return true because of valid login");
+            assert.isTrue(scope.isAuthenticated(), "should be authenticated");
+        });
 
-        expect(scope.isAuthenticated()).to.equal(true);
+        $httpBackend.flush();
     });
 
     it('test the login - invalid',function () {
 
-        //set the mock factory to return a promise
-        def.resolve(false);
-        mockAuthFactory.authenticateUser.returns(def.promise);
-        mockAuthFactory.isAuthenticated.returns(false);
+        var expectedUser = { username: "reich.justin@gmail.com", password: "password" };
+
+        $httpBackend.expectPOST('/login', expectedUser)
+            .respond(function() {
+                return [201,{ "success": false, user: undefined }];
+            });
 
         /*
          set the scope values
@@ -78,8 +80,11 @@ describe('Unit: LoginCtrl', function() {
         scope.password = "password";
 
         //call the signin
-        scope.signin();
+        scope.signin().then(function(data) {
+            assert.isFalse(data, "should return false because of invalid login");
+            assert.isFalse(scope.isAuthenticated(), "should not be authenticated");
+        });
 
-        expect(scope.isAuthenticated()).to.equal(false);
+        $httpBackend.flush();
     });
 });
