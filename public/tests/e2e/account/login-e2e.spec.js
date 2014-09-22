@@ -6,10 +6,14 @@ var  chai      = require('chai'),
 chai.use(chaiPromise);
 
 describe('login control', function() {
+
     var emailTextBox, passwordTextBox,
         loginForm, loginButton,  alert;
 
     beforeEach(function () {
+        //setup the http backend
+        //$httpBackend = $injector.get('$httpBackend');
+
         browser.driver.ignoreSynchronization = true;
 
         //go to the root page
@@ -22,6 +26,7 @@ describe('login control', function() {
         loginButton = loginForm.element(by.css('.btn'));
         alert = loginForm.element(by.css('.alert'));
     });
+
 
    it ('initialize - check all defaults',function() {
 
@@ -40,7 +45,7 @@ describe('login control', function() {
        expect(alert.getAttribute('class')).to.eventually.contain('ng-hide');
 
        //the login button should be disabled
-       expect(loginButton.getAttribute('disabled')).to.not.eventually.equal(undefined);
+       expect(loginButton.getAttribute('disabled')).to.not.eventually.equal(null);
     });
 
     it ('email validation - enter invalid email',function() {
@@ -79,7 +84,7 @@ describe('login control', function() {
         expect(emailTextBox.getAttribute('class')).to.eventually.contain('ng-invalid-required');
         expect(emailTextBox.getAttribute('class')).to.eventually.contain('ng-valid-email');
 
-        //set the textbox to an invalid email
+        //set the textbox to a valid email
         emailTextBox.sendKeys('valid@valid.com');
 
         //the textbox should have a value now
@@ -105,5 +110,48 @@ describe('login control', function() {
         //the password textbox should now be valid
         expect(passwordTextBox.getAttribute('value')).to.eventually.equal('password');
         expect(passwordTextBox.getAttribute('class')).to.eventually.contain('ng-valid');
+    });
+
+    it ('entering proper email and password will validate form and enable login', function() {
+        //the login form should be invalid
+        //the login button should be disabled
+        expect(loginForm.getAttribute('class')).to.eventually.contain('ng-invalid');
+        expect(loginButton.getAttribute('disabled')).to.not.eventually.equal(null);
+
+        //set the textbox to a valid email
+        emailTextBox.sendKeys('valid@valid.com');
+        passwordTextBox.sendKeys("password");
+
+        //the form should now be valid
+        expect(loginForm.getAttribute('class')).to.not.eventually.contain('ng-invalid');
+        expect(loginForm.getAttribute('class')).to.eventually.contain('ng-valid');
+
+        //the button should no longer be disabled
+        expect(loginButton.getAttribute('disabled')).to.eventually.equal(null);
+    });
+
+    it ('login - invalid login should show error', function() {
+        //set the textbox to a valid email
+        emailTextBox.sendKeys('valid@valid.com');
+        passwordTextBox.sendKeys("password");
+
+        //after clicking login the invalid email alert should show
+        loginButton.click().then(function() {
+            expect(alert.getAttribute('class')).to.not.eventually.contain('ng-hide');
+        });
+    });
+
+    it ('login - valid login hide form', function() {
+        //the form should be visible first
+        expect(loginForm.getAttribute('class')).to.not.eventually.contain('ng-hide');
+
+        //set the textbox to a valid email
+        emailTextBox.sendKeys('reich.justin@gmail.com');
+        passwordTextBox.sendKeys("password");
+
+        //after clicking login the valid login should hide the form
+        loginButton.click().then(function() {
+            expect(loginForm.getAttribute('class')).to.eventually.contain('ng-hide');
+        });
     });
 });

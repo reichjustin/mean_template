@@ -2,7 +2,7 @@
 describe('Unit: SignupCtrl', function() {
 
 
-    var ctrl, scope;
+    var ctrl, scope, $httpBackend;
 
     beforeEach(module('app'));
 
@@ -51,7 +51,7 @@ describe('Unit: SignupCtrl', function() {
          //mockAuthFactory.isAuthenticated.returns(true);
 
          //call the signup
-         scope.username = "test@test.com";
+         scope.email = "test@test.com";
 
          //call signup - which returns a promise of true/false if a user was created
          scope.signup().then(function(data) {
@@ -76,7 +76,7 @@ describe('Unit: SignupCtrl', function() {
         //mockAuthFactory.isAuthenticated.returns(true);
 
         //call the signup
-        scope.username = "test@test.com";
+        scope.email = "test@test.com";
 
         //call signup - which returns a promise of true/false if a user was created
         scope.signup().then(function(data) {
