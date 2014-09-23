@@ -1,19 +1,17 @@
 var  chai      = require('chai'),
      chaiPromise = require("chai-as-promised"),
-     expect    = chai.expect;
+     expect    = chai.expect,
+     HttpBackend = require('http-backend-proxy');
 
-//tie in the chai as promise to the existing chai library
+//setup the uses
 chai.use(chaiPromise);
 
 describe('login control', function() {
 
     var emailTextBox, passwordTextBox,
-        loginForm, loginButton,  alert;
+        loginForm, loginButton,  alert, $httpBackend;
 
     beforeEach(function () {
-        //setup the http backend
-        //$httpBackend = $injector.get('$httpBackend');
-
         browser.driver.ignoreSynchronization = true;
 
         //go to the root page
@@ -131,13 +129,16 @@ describe('login control', function() {
     });
 
     it ('login - invalid login should show error', function() {
+        var expectedUser = { username: "valid@valid.com", password: "password" };
+
+
         //set the textbox to a valid email
         emailTextBox.sendKeys('valid@valid.com');
         passwordTextBox.sendKeys("password");
 
         //after clicking login the invalid email alert should show
         loginButton.click().then(function() {
-            expect(alert.getAttribute('class')).to.not.eventually.contain('ng-hide');
+           expect(alert.getAttribute('class')).to.not.eventually.contain('ng-hide');
         });
     });
 
