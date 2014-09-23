@@ -42,7 +42,7 @@ gulp.task('node',function() {
     return nodemon({ script: 'server.js' });
 });
 
-/*
+/*git
     file watchers
  */
 gulp.task('watchers', function() {
@@ -82,4 +82,4 @@ gulp.task('test:node',['node-tests']);
 gulp.task('test:karma',['karma']);
 
 //run protractor tests
-gulp.task('test:protractor',['node', 'node','protractor']);
+gulp.task('test:protractor',['node','protractor']);
