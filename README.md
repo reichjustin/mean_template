@@ -1,16 +1,25 @@
 mean_template
 =============
-
-Started by working thru "Building AngularJS and Node.Js Apps with the MEAN Stack" (http://beta.pluralsight.com/courses/building-angularjs-nodejs-apps-mean)
-
 A nice little starter app for MEAN apps with seperated code, authentication and more!
 
-"npm install" and you should be good to go unless I forgot a package.
+Install
+============
 
-There are both Karam/Mocha tests and ProtractorJS e2e tests setup.
+<strong>npm install </strong>
 
-karma: karma start karma.conf.js
+Running Server
+============
 
-protractor: protractor protractor.conf.js
+<strong>gulp</strong>
 
-You will need protractor install globally to perform that.
+Running Testes
+============
+
+<strong>gulp test:node </strong> 
+for all mocha tests on the server code
+
+<strong>gulp test:karma</strong> 
+for all mocha tests on the client code
+
+<strong>gulp test:protractor</strong> 
+for all protractor/e2e tests. By default it expects your own selenium server running locally.
