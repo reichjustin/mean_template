@@ -71,8 +71,15 @@ gulp.task('chrome', function() {
        .pipe(open("", opts));
 });
 
-//run a full test spec
-gulp.task('default', ['node','karma','node-tests','protractor','watchers']);
 
-//this will just start nodemon
-gulp.task('server', ['node']);
+//run a full test spec
+gulp.task('default', ['node']);
+
+//run node tests
+gulp.task('test:node',['node-tests']);
+
+//run karma tests
+gulp.task('test:karma',['karma']);
+
+//run protractor tests
+gulp.task('test:protractor',['node', 'node','protractor']);
