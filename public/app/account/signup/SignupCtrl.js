@@ -1,4 +1,4 @@
-angular.module('app').controller('SignupCtrl', function($scope,$q,AuthFactory) {
+angular.module('app').controller('SignupCtrl',['$scope', '$q', 'AuthFactory', function($scope,$q,AuthFactory) {
 
     //setup the show existing username
     $scope.showExistingUsername = false;
@@ -24,4 +24,4 @@ angular.module('app').controller('SignupCtrl', function($scope,$q,AuthFactory) {
 
         return defer.promise;
     };
-});
+}] );

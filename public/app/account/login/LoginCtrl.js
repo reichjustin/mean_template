@@ -1,4 +1,4 @@
-angular.module('app').controller('LoginCtrl', function($scope,$q,AuthFactory) {
+angular.module('app').controller('LoginCtrl', ['$scope', '$q', 'AuthFactory', function($scope,$q,AuthFactory) {
     /*
         Triggered from the login button
      */
@@ -35,4 +35,4 @@ angular.module('app').controller('LoginCtrl', function($scope,$q,AuthFactory) {
     $scope.logout = function() {
         AuthFactory.logOut();
     };
-});
+}]);

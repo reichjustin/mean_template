@@ -1,4 +1,4 @@
-angular.module('app').factory('AuthFactory', function($http,$q) {
+angular.module('app').factory('AuthFactory',['$http', '$q', function($http,$q) {
     return {
       /*
           The logged in user info - This will be expanded
@@ -79,4 +79,4 @@ angular.module('app').factory('AuthFactory', function($http,$q) {
           return def.promise;
       }
     };
-});
+}]);
