@@ -12,7 +12,7 @@ Running Server
 
 <strong>gulp</strong>
 
-Running Testes
+Running Tests
 ============
 
 <strong>gulp test:node </strong> 
