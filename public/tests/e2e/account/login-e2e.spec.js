@@ -9,7 +9,7 @@ chai.use(chaiPromise);
 describe('login control', function() {
 
     var emailTextBox, passwordTextBox,
-        loginForm, loginButton,  alert, $httpBackend;
+        loginForm, loginButton,  alert;
 
     beforeEach(function () {
         browser.driver.ignoreSynchronization = true;
@@ -129,9 +129,6 @@ describe('login control', function() {
     });
 
     it ('login - invalid login should show error', function() {
-        var expectedUser = { username: "valid@valid.com", password: "password" };
-
-
         //set the textbox to a valid email
         emailTextBox.sendKeys('valid@valid.com');
         passwordTextBox.sendKeys("password");

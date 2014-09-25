@@ -46,6 +46,34 @@ describe('index/home page', function() {
         //after clicking login the logout button should be visible
         loginButton.click().then(function() {
             expect(logoutButton.getAttribute('class')).to.not.eventually.contain('ng-hide');
+            //should redirect to the /home route
+            expect(browser.getCurrentUrl()).to.eventually.equal(browser.baseUrl + '/home');
+        });
+    });
+
+    it ('logging in should show the logout button and logging out should go back to /', function() {
+        //setup all the login stuff needed
+        var loginForm = element(by.id('loginForm'));
+        var emailTextBox = loginForm.element(by.model('email'));
+        var passwordTextBox = loginForm.element(by.model('password'));
+        var loginButton = loginForm.element(by.css('.btn'));
+
+
+        //set the textbox to a valid email
+        emailTextBox.sendKeys('reich.justin@gmail.com');
+        passwordTextBox.sendKeys("password");
+
+        //after clicking login the logout button should be visible
+        loginButton.click().then(function() {
+            expect(logoutButton.getAttribute('class')).to.not.eventually.contain('ng-hide');
+            //should redirect to the /home route
+            expect(browser.getCurrentUrl()).to.eventually.equal(browser.baseUrl + '/home');
+
+            logoutButton.click().then(function() {
+
+                //should redirect to the /home route
+                expect(browser.getCurrentUrl()).to.eventually.equal(browser.baseUrl + '/');
+            })
         });
     });
 });
