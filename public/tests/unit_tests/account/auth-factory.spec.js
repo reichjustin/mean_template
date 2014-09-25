@@ -110,6 +110,12 @@ describe('Unit: AuthFactory', function() {
         authFactory.currentUser = { username : 'test' };
         expect(authFactory.isAuthenticated()).to.equal(true);
 
+        $httpBackend.expectPOST('/logout',{})
+            .respond(function() {
+                return [200, { success: true }];
+            });
+
+
         //logout the user
         authFactory.logOut();
 
@@ -117,6 +123,8 @@ describe('Unit: AuthFactory', function() {
         expect(authFactory.currentUser).to.equal(undefined);
         expect(authFactory.isAuthenticated()).to.equal(false);
         expect($location.url()).to.equal('/');
+
+        $httpBackend.flush();
     });
 
     it ('calling create account will create a new account', function() {

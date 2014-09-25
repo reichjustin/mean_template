@@ -51,11 +51,15 @@ angular.module('app').factory('AuthFactory',['$http', '$q', '$location', functio
            Helper method that will log out a user
        */
       logOut: function() {
-        //set the current user to undefined
-        this.currentUser = undefined;
+          //set the current user to undefined
+          this.currentUser = undefined;
 
-        //set the route to the root path /
-        $location.path('/');
+        //call node to logout!
+        $http.post('/logout',{}).then(function(result) {
+
+            //set the route to the root path /
+            $location.path('/');
+        });
       },
 
       createAccount: function(username,password,firstName,lastName) {

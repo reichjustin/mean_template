@@ -99,6 +99,11 @@ describe('Unit: LoginCtrl', function() {
                 return [201,{ "success": true, user: expectedUser }];
             });
 
+        $httpBackend.expectPOST('/logout',{})
+            .respond(function() {
+               return [200, { success: true }];
+            });
+
         /*
          set the scope values
          since the front end validation will not allow an invalid email no need to check anything else
