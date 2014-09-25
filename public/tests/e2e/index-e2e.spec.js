@@ -76,4 +76,18 @@ describe('index/home page', function() {
             })
         });
     });
+
+    it ('trying to go to any route that doesnt exist should go back to /', function() {
+        browser.get('http://localhost:3030/invalid');
+
+        //should redirect to the /home route
+        expect(browser.getCurrentUrl()).to.eventually.equal(browser.baseUrl + '/');
+    });
+
+    it ('trying to access a restricted route should go back to /', function() {
+        browser.get('http://localhost:3030/home');
+
+        //should redirect to the /home route
+        expect(browser.getCurrentUrl()).to.eventually.equal(browser.baseUrl + '/');
+    });
 });
