@@ -9,4 +9,6 @@ form(ng-controller="SignupCtrl",id="signupForm",name='signupForm')
             input.form-control(placeholder='First Name', ng-model='firstname', type='text',required=true)
         .form-group
             input.form-control(placeholder='First Last', ng-model='lastname', type='text',required=true)
+        .form-group
+            input.form-control(placeholder='Password', ng-model='password', type='password', required=true)
         button.btn.btn-primary.pull-right(ng-click="signup()",id='signup',ng-disabled='signupForm.$invalid') Signup

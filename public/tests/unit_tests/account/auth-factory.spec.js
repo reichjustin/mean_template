@@ -115,7 +115,7 @@ describe('Unit: AuthFactory', function() {
     });
 
     it ('calling create account will create a new account', function() {
-        var expectedUser = { username: "test@test.com", firstname: "test@test.com", lastname: "test@test.com" };
+        var expectedUser = { username: "test@test.com", firstname: "first", lastname: "last", password: "password" };
 
         /*
          On the login, catch it and return some bad data!
@@ -125,7 +125,7 @@ describe('Unit: AuthFactory', function() {
                 return [201,{  "success": true, user: expectedUser  }];
             });
 
-        authFactory.createAccount(expectedUser.username, expectedUser.password)
+        authFactory.createAccount(expectedUser.username, expectedUser.password,expectedUser.firstname,expectedUser.lastname)
             .then(function(data) {
                 /*
                  do assertions
@@ -140,7 +140,7 @@ describe('Unit: AuthFactory', function() {
     });
 
     it ('calling create account should not create duplicate emails', function() {
-        var expectedUser = { username: "test@test.com", firstname: "test@test.com", lastname: "test@test.com" };
+        var expectedUser = { username: "test@test.com", firstname: "first", lastname: "last", password: "password" };
 
         /*
          On the login, catch it and return some bad data!
@@ -150,7 +150,7 @@ describe('Unit: AuthFactory', function() {
                 return [201,{  "success": false, user: undefined  }];
             });
 
-        authFactory.createAccount(expectedUser.username, expectedUser.password)
+        authFactory.createAccount(expectedUser.username, expectedUser.password,expectedUser.firstname,expectedUser.lastname)
             .then(function(data) {
 
                 /*

@@ -7,7 +7,8 @@ var mongoose = require('mongoose'),
 var UserSchema = mongoose.Schema({
     firstName : String,
     lastName : String,
-    userName : String
+    userName : String,
+    password: String
 });
 
 //setup the User object to inherit from the BaseSchema
@@ -23,7 +24,7 @@ exports.createUser = function(req,res,next) {
         2) if no users exist, create!
         3) finally is everything goes well, auth that user before sending it all back
      */
-    _user.findOne({userName: req.body.username}).exec(function(err, user) {
+    _user.findOne({userName: req.body.username, password: req.body.password}).exec(function(err, user) {
         //if there is an error, raise it
         if(err) { return next(err); }
 
@@ -33,7 +34,7 @@ exports.createUser = function(req,res,next) {
             res.send({ success: false });
         } else {
             //make the promise call to create the new user
-            _user.create({ userName: req.body.username, firstName: req.body.firstname, lastName: req.body.lastname}, function(err, user) {
+            _user.create({ userName: req.body.username, firstName: req.body.firstname, lastName: req.body.lastname, password: req.body.password}, function(err, user) {
                 //if there is an error, raise it
                 if(err) { return next(err); }
 

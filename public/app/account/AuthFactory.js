@@ -52,13 +52,13 @@ angular.module('app').factory('AuthFactory',['$http', '$q', function($http,$q) {
         this.currentUser = undefined;
       },
 
-      createAccount: function(username,password) {
+      createAccount: function(username,password,firstName,lastName) {
         var that = this,  def = $q.defer();
 
           /*
            Call the signup with the username and password to create
            */
-          $http.post('/signup',{ username: username, firstname: username, lastname: username }).then(function(result) {
+          $http.post('/signup',{ username: username, firstname: firstName, lastname: lastName, password: password }).then(function(result) {
 
               //success will be true if valid or false if not
               if (result.data.success) {

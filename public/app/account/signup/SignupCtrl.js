@@ -10,13 +10,14 @@ angular.module('app').controller('SignupCtrl',['$scope', '$q', 'AuthFactory', fu
         var defer = $q.defer();
 
         //make the call to the create account on the AuthFactory
-        AuthFactory.createAccount($scope.email,$scope.email).then(function(data) {
+        AuthFactory.createAccount($scope.email,$scope.password,$scope.firstname,$scope.lastname).then(function(data) {
             $scope.showExistingUsername = !data;
 
             if (data) {
                 $scope.email = "";
                 $scope.firstname = "";
                 $scope.lastname = "";
+                $scope.password = "";
             }
 
             defer.resolve(data);

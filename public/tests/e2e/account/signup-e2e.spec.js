@@ -7,7 +7,7 @@ chai.use(chaiPromise);
 
 describe('signup control', function() {
 
-    var emailTextBox, firstNameTextBox,lastNameTextBox,
+    var emailTextBox, firstNameTextBox,lastNameTextBox, passwordTextBox,
         signupForm, signupButton,  alert;
 
     beforeEach(function () {
@@ -24,6 +24,7 @@ describe('signup control', function() {
         emailTextBox = signupForm.element(by.model('email'));
         firstNameTextBox = signupForm.element(by.model('firstname'));
         lastNameTextBox = signupForm.element(by.model('lastname'));
+        passwordTextBox = signupForm.element(by.model('password'));
         signupButton = signupForm.element(by.css('.btn'));
         alert = signupForm.element(by.css('.alert'));
     });
@@ -45,6 +46,10 @@ describe('signup control', function() {
         //the last name textbox should be empty
         expect(lastNameTextBox.getAttribute('value')).to.eventually.equal('');
         expect(lastNameTextBox.getAttribute('class')).to.eventually.contain('ng-invalid');
+
+        //the password textbox should be empty
+        expect(passwordTextBox.getAttribute('value')).to.eventually.equal('');
+        expect(passwordTextBox.getAttribute('class')).to.eventually.contain('ng-invalid');
 
         //the alert should be hidden
         expect(alert.getAttribute('class')).to.eventually.contain('ng-hide');
@@ -132,6 +137,20 @@ describe('signup control', function() {
         expect(lastNameTextBox.getAttribute('class')).to.eventually.contain('ng-valid');
     });
 
+    it ('password validation - enter a password',function() {
+
+        //the password textbox should be invalid
+        expect(passwordTextBox.getAttribute('value')).to.eventually.equal('');
+        expect(passwordTextBox.getAttribute('class')).to.eventually.contain('ng-invalid');
+
+        //set a valid password
+        passwordTextBox.sendKeys("password");
+
+        //the password textbox should now be valid
+        expect(passwordTextBox.getAttribute('value')).to.eventually.equal('password');
+        expect(passwordTextBox.getAttribute('class')).to.eventually.contain('ng-valid');
+    });
+
     it ('entering all values will validate form and enable login', function() {
         //the login form should be invalid
         //the login button should be disabled
@@ -141,7 +160,8 @@ describe('signup control', function() {
         //set the textbox to a valid email
         emailTextBox.sendKeys('valid@valid.com');
         firstNameTextBox.sendKeys("first");
-        lastNameTextBox.sendKeys("first");
+        lastNameTextBox.sendKeys("last");
+        passwordTextBox.sendKeys('password')
 
         //the form should now be valid
         expect(signupForm.getAttribute('class')).to.not.eventually.contain('ng-invalid');
@@ -155,7 +175,9 @@ describe('signup control', function() {
         //set the textbox to a valid email
         emailTextBox.sendKeys('reich.justin@gmail.com');
         firstNameTextBox.sendKeys("first");
-        lastNameTextBox.sendKeys("first");
+        lastNameTextBox.sendKeys("last");
+        passwordTextBox.sendKeys('password');
+
 
         //after clicking login the invalid email alert should show
         signupButton.click().then(function() {

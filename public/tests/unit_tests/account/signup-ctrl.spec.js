@@ -34,11 +34,14 @@ describe('Unit: SignupCtrl', function() {
         //make sure the identity is there
         expect(scope.email).to.equal(undefined);
         expect(scope.password).to.equal(undefined);
+        expect(scope.firstname).to.equal(undefined);
+        expect(scope.lastname).to.equal(undefined);
     });
 
      it('test the signup - valid',function () {
 
-         var expectedUser = { username: "test@test.com", firstname: "test@test.com", lastname: "test@test.com" };
+         var expectedUser = { username: "test@test.com", firstname: "first", lastname: "last", password: "password" };
+
 
          $httpBackend.expectPOST('/signup', expectedUser)
              .respond(function() {
@@ -47,6 +50,9 @@ describe('Unit: SignupCtrl', function() {
 
          //call the signup
          scope.email = "test@test.com";
+         scope.password = "password";
+         scope.firstname = "first";
+         scope.lastname = "last";
 
          //call signup - which returns a promise of true/false if a user was created
          scope.signup().then(function(data) {
@@ -58,7 +64,7 @@ describe('Unit: SignupCtrl', function() {
 
     it('test the signup - invalid',function () {
 
-        var expectedUser = { username: "test@test.com", firstname: "test@test.com", lastname: "test@test.com" };
+        var expectedUser = { username: "test@test.com", firstname: "first", lastname: "last", password: "password" };
 
         $httpBackend.expectPOST('/signup', expectedUser)
             .respond(function() {
@@ -67,6 +73,9 @@ describe('Unit: SignupCtrl', function() {
 
         //call the signup
         scope.email = "test@test.com";
+        scope.password = "password";
+        scope.firstname = "first";
+        scope.lastname = "last";
 
         //call signup - which returns a promise of true/false if a user was created
         scope.signup().then(function(data) {

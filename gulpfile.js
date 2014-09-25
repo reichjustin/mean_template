@@ -67,7 +67,7 @@ gulp.task('package', function() {
  */
 gulp.task('chrome', function() {
    var opts = { url: "http://localhost:3030", app: "google-chrome" };
-   gulp.src('./favicon.ico')
+   gulp.src(['public/app/index.html'], { read: true })
        .pipe(open("", opts));
 });
 

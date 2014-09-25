@@ -148,7 +148,7 @@ describe('login control', function() {
 
         //set the textbox to a valid email
         emailTextBox.sendKeys('reich.justin@gmail.com');
-        passwordTextBox.sendKeys("password");
+        passwordTextBox.sendKeys("@ltjrbf11");
 
         //after clicking login the valid login should hide the form
         loginButton.click().then(function() {
