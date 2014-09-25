@@ -23,6 +23,7 @@ angular.module('app').factory('AuthFactory',['$http', '$q', '$location', functio
                   //set the currentUser to the return value
                   that.currentUser = result.data.user;
 
+                  //set the new path
                   $location.path('/home');
 
                   //defer value to true
@@ -52,6 +53,9 @@ angular.module('app').factory('AuthFactory',['$http', '$q', '$location', functio
       logOut: function() {
         //set the current user to undefined
         this.currentUser = undefined;
+
+        //set the route to the root path /
+        $location.path('/');
       },
 
       createAccount: function(username,password,firstName,lastName) {
@@ -66,6 +70,9 @@ angular.module('app').factory('AuthFactory',['$http', '$q', '$location', functio
               if (result.data.success) {
                   //set the currentUser to the return value
                   that.currentUser = result.data.user;
+
+                  //set the new path
+                  $location.path('/home');
 
                   //defer value to true
                   def.resolve(true);

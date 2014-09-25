@@ -19,7 +19,6 @@ angular.module('app').controller('LoginCtrl', ['$scope', '$q','$location', 'Auth
 
             $scope.showInvalidLogin = !data;
 
-
             defer.resolve(data);
         });
 
@@ -35,7 +34,5 @@ angular.module('app').controller('LoginCtrl', ['$scope', '$q','$location', 'Auth
 
     $scope.logout = function() {
         AuthFactory.logOut();
-
-        $location.path('/');
     };
 }]);

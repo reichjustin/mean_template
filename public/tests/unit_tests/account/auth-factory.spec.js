@@ -1,6 +1,7 @@
 describe('Unit: AuthFactory', function() {
     var $httpBackend,
-        authFactory;
+        authFactory,
+        $location;
 
     beforeEach(module('app'));
 
@@ -8,6 +9,7 @@ describe('Unit: AuthFactory', function() {
 
         $httpBackend = $injector.get('$httpBackend');
         authFactory = $injector.get('AuthFactory');
+        $location = $injector.get('$location');
     }));
 
     afterEach(function () {
@@ -60,6 +62,7 @@ describe('Unit: AuthFactory', function() {
             //should still be unauthenticated
             expect(authFactory.currentUser).not.to.equal(undefined);
             expect(authFactory.isAuthenticated()).to.equal(true);
+            expect($location.url()).to.equal('/home');
         });
 
         //flush out the remaining requests
@@ -94,6 +97,7 @@ describe('Unit: AuthFactory', function() {
             //should still be unauthenticated
             expect(authFactory.currentUser).to.equal(undefined);
             expect(authFactory.isAuthenticated()).to.equal(false);
+            expect($location.url()).to.equal('/');
         });
 
         //flush out the remaining requests
@@ -112,6 +116,7 @@ describe('Unit: AuthFactory', function() {
         //now the currentUser should be undefined and not auth
         expect(authFactory.currentUser).to.equal(undefined);
         expect(authFactory.isAuthenticated()).to.equal(false);
+        expect($location.url()).to.equal('/');
     });
 
     it ('calling create account will create a new account', function() {
@@ -133,6 +138,7 @@ describe('Unit: AuthFactory', function() {
                 assert.isTrue(data, "result promise should return true")
                 assert.isTrue(authFactory.isAuthenticated(), "there should be an authenticated user")
                 assert.deepEqual(expectedUser,authFactory.currentUser, "he returned user should == authed user");
+                assert.equal('/home',$location.url(), "the route should go to /home after signup success");
             });
 
         //flush out the remaining requests
@@ -159,6 +165,8 @@ describe('Unit: AuthFactory', function() {
                 assert.isFalse(data, "result promise should return false")
                 assert.isFalse(authFactory.isAuthenticated(), "there should not be any authenticared users")
                 assert.equal(undefined,authFactory.currentUser, "current user should be undefined since");
+
+                assert.equal('/',$location.url(), "the route should go to / after signup failure");
             });
 
         //flush out the remaining requests

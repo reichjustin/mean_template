@@ -182,6 +182,9 @@ describe('signup control', function() {
         //after clicking login the invalid email alert should show
         signupButton.click().then(function() {
             expect(alert.getAttribute('class')).to.not.eventually.contain('ng-hide');
+
+            //should still be on the / route
+            expect(browser.getCurrentUrl()).to.eventually.equal(browser.baseUrl + '/');
         });
     });
 

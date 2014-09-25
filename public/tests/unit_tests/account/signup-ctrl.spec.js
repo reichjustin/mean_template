@@ -2,12 +2,13 @@
 describe('Unit: SignupCtrl', function() {
 
 
-    var ctrl, scope, $httpBackend;
+    var ctrl, scope, $httpBackend, $location;
 
     beforeEach(module('app'));
 
     beforeEach(inject(function ($injector) {
         $httpBackend = $injector.get('$httpBackend');
+        $location = $injector.get('$location');
     }));
 
     afterEach(function () {
@@ -57,6 +58,7 @@ describe('Unit: SignupCtrl', function() {
          //call signup - which returns a promise of true/false if a user was created
          scope.signup().then(function(data) {
             assert.isTrue(data, "should be a valid user");
+            assert.equal('/home', $location.url(), "success signup should go to the /home route");
          });
 
          $httpBackend.flush();
@@ -80,6 +82,7 @@ describe('Unit: SignupCtrl', function() {
         //call signup - which returns a promise of true/false if a user was created
         scope.signup().then(function(data) {
             assert.isFalse(data, "should be an invalid user");
+            assert.equal('/', $location.url(), "invalid signup should go to the / route");
         });
 
         $httpBackend.flush();

@@ -2,12 +2,13 @@
 describe('Unit: LoginCtrl', function() {
 
 
-    var ctrl, scope, $httpBackend, $route;
+    var ctrl, scope, $httpBackend, $location;
 
     beforeEach(module('app'));
 
     beforeEach(inject(function ($injector) {
         $httpBackend = $injector.get('$httpBackend');
+        $location = $injector.get('$location');
     }));
 
     afterEach(function () {
@@ -58,6 +59,7 @@ describe('Unit: LoginCtrl', function() {
         scope.signin().then(function(data) {
             assert.isTrue(data, "should return true becas");
             assert.isTrue(scope.isAuthenticated());
+            expect($location.url()).to.equal('/home');
         });
 
         $httpBackend.flush();
@@ -83,6 +85,7 @@ describe('Unit: LoginCtrl', function() {
         scope.signin().then(function(data) {
             assert.isFalse(data, "should return false because of invalid login");
             assert.isFalse(scope.isAuthenticated(), "should not be authenticated");
+            expect($location.url()).to.equal('/');
         });
 
         $httpBackend.flush();
@@ -106,16 +109,14 @@ describe('Unit: LoginCtrl', function() {
         scope.signin().then(function(data) {
             assert.isTrue(data, "should return true becas");
             assert.isTrue(scope.isAuthenticated());
+            expect($location.url()).to.equal('/home');
         });
 
         //calling logout should remove auth user
         scope.logout();
         assert.isFalse(scope.isAuthenticated());
-
-
-        //assert.isEqual('/',$location.path)
+        expect($location.url()).to.equal('/');
 
         $httpBackend.flush();
-
     });
 });
