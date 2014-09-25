@@ -86,4 +86,27 @@ describe("Auth Config",  function(){
         var _auth = require('../../config/auth');
         expect(_auth.authenticate(req)).to.equal(true);
     });
+
+
+    it ('should make a POST to logout', function() {
+        /*
+         make a dummy req object that has a logIn method
+         */
+        var req = {
+            logout: function() {
+                return true;
+            }
+        };
+
+        stub.withArgs('local').returns(function()
+        {
+            return req.logout();
+        });
+
+        /*
+         test an error from password
+         */
+        var _auth = require('../../config/auth');
+        expect(_auth.authenticate(req)).to.equal(true);
+    });
 });

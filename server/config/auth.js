@@ -28,3 +28,11 @@ exports.authenticate = function(req, res, next) {
 exports.signup = function(req, res, next) {
     return UserSchema.createUser(req,res,next);
 };
+
+exports.logout = function(req,res,next) {
+    //logout
+    req.logout();
+
+    //send json success
+    res.send({ success: true });
+};
