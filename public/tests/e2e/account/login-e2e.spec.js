@@ -138,7 +138,9 @@ describe('login control', function() {
 
         //after clicking login the invalid email alert should show
         loginButton.click().then(function() {
-           expect(alert.getAttribute('class')).to.not.eventually.contain('ng-hide');
+            expect(alert.getAttribute('class')).to.not.eventually.contain('ng-hide');
+            //should still be the root / route
+            expect(browser.getCurrentUrl()).to.eventually.equal(browser.baseUrl + '/');
         });
     });
 
@@ -152,7 +154,8 @@ describe('login control', function() {
 
         //after clicking login the valid login should hide the form
         loginButton.click().then(function() {
-            expect(loginForm.getAttribute('class')).to.eventually.contain('ng-hide');
+            //should redirect to the /home route
+            expect(browser.getCurrentUrl()).to.eventually.equal(browser.baseUrl + '/home');
         });
     });
 });

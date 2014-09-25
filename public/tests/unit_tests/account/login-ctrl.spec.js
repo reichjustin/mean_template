@@ -2,7 +2,7 @@
 describe('Unit: LoginCtrl', function() {
 
 
-    var ctrl, scope, $httpBackend;
+    var ctrl, scope, $httpBackend, $route;
 
     beforeEach(module('app'));
 
@@ -112,6 +112,10 @@ describe('Unit: LoginCtrl', function() {
         scope.logout();
         assert.isFalse(scope.isAuthenticated());
 
+
+        //assert.isEqual('/',$location.path)
+
         $httpBackend.flush();
+
     });
 });
