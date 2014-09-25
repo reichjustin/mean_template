@@ -1,4 +1,4 @@
-angular.module('app').controller('LoginCtrl', ['$scope', '$q', 'AuthFactory', function($scope,$q,AuthFactory) {
+angular.module('app').controller('LoginCtrl', ['$scope', '$q','$location', 'AuthFactory', function($scope,$q,$location,AuthFactory) {
     /*
         Triggered from the login button
      */
@@ -19,6 +19,7 @@ angular.module('app').controller('LoginCtrl', ['$scope', '$q', 'AuthFactory', fu
 
             $scope.showInvalidLogin = !data;
 
+
             defer.resolve(data);
         });
 
@@ -34,5 +35,7 @@ angular.module('app').controller('LoginCtrl', ['$scope', '$q', 'AuthFactory', fu
 
     $scope.logout = function() {
         AuthFactory.logOut();
+
+        $location.path('/');
     };
 }]);

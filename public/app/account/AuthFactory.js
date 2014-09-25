@@ -1,4 +1,4 @@
-angular.module('app').factory('AuthFactory',['$http', '$q', function($http,$q) {
+angular.module('app').factory('AuthFactory',['$http', '$q', '$location', function($http,$q,$location) {
     return {
       /*
           The logged in user info - This will be expanded
@@ -22,6 +22,8 @@ angular.module('app').factory('AuthFactory',['$http', '$q', function($http,$q) {
               if (result.data.success) {
                   //set the currentUser to the return value
                   that.currentUser = result.data.user;
+
+                  $location.path('/home');
 
                   //defer value to true
                   def.resolve(true);
