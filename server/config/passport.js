@@ -5,9 +5,10 @@ var passport = require('passport'),
 module.exports = function() {
     passport.use(new LocalStrategy(
         function(username, password, done) {
-            User.findOne({username:username, password: password}).exec(function(err, user) {
+            User.findOne({username:username}).exec(function(err, user) {
 
-                if(user) {
+                //if it found a user and the password is valid then log em in
+                if(user && user.isValidPassword(password)) {
                     return done(null, user);
                 } else {
                     return done(null, false);
