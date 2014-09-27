@@ -1,8 +1,7 @@
-var mongoose = require('mongoose'),
-    BaseSchema = require('./BaseSchema');
+var mongoose = require('mongoose');
 
 /*
-  Create the schema for User
+ Create the schema for User
  */
 var UserSchema = mongoose.Schema({
     firstName : String,
@@ -11,20 +10,17 @@ var UserSchema = mongoose.Schema({
     password: String
 });
 
-//setup the User object to inherit from the BaseSchema
-exports.User = new BaseSchema.CreateBaseSchema("User", UserSchema);
+//export the model
+module.exports = mongoose.model('User', UserSchema)
 
-exports.createUser = function(req,res,next) {
-
-    //get a reference to the user schema
-    var _user = this.User.schemaModel;
-
+//setup the create user method
+module.exports.createUser = function(req,res,next) {
     /*
-        1) attempt to find by user name
-        2) if no users exist, create!
-        3) finally is everything goes well, auth that user before sending it all back
+     1) attempt to find by user name
+     2) if no users exist, create!
+     3) finally is everything goes well, auth that user before sending it all back
      */
-    _user.findOne({userName: req.body.username, password: req.body.password}).exec(function(err, user) {
+    this.findOne({userName: req.body.username, password: req.body.password}).exec(function(err, user) {
         //if there is an error, raise it
         if(err) { return next(err); }
 
@@ -34,7 +30,7 @@ exports.createUser = function(req,res,next) {
             res.send({ success: false });
         } else {
             //make the promise call to create the new user
-            _user.create({ userName: req.body.username, firstName: req.body.firstname, lastName: req.body.lastname, password: req.body.password}, function(err, user) {
+            this.create({ userName: req.body.username, firstName: req.body.firstname, lastName: req.body.lastname, password: req.body.password}, function(err, user) {
                 //if there is an error, raise it
                 if(err) { return next(err); }
 
@@ -52,6 +48,4 @@ exports.createUser = function(req,res,next) {
             });
         }
     })
-
-};
-
+}

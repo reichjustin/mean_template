@@ -1,5 +1,5 @@
 var passport = require('passport')
-    UserSchema = require('../schemas/UserSchema');
+    User = require('../schemas/UserSchema');
 
 exports.authenticate = function(req, res, next) {
 
@@ -26,7 +26,7 @@ exports.authenticate = function(req, res, next) {
 };
 
 exports.signup = function(req, res, next) {
-    return UserSchema.createUser(req,res,next);
+    return User.createUser(req,res,next);
 };
 
 exports.logout = function(req,res,next) {

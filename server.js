@@ -2,6 +2,7 @@ var express = require('express'),
     app = express(),
     config = require('./server/config/config');
 
+
 /*
    Require the configuration
    Setup Mongoose
