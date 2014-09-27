@@ -4,48 +4,30 @@ var mongoose = require('mongoose');
  Create the schema for User
  */
 var UserSchema = mongoose.Schema({
-    firstName : String,
-    lastName : String,
-    userName : String,
+    firstname : { type: String, required: true },
+    lastname : { type: String, required: true },
+    username : { type: String, required: true, unique: true },
     password: String
 });
 
-//export the model
-module.exports = mongoose.model('User', UserSchema)
 
 //setup the create user method
-module.exports.createUser = function(req,res,next) {
-    /*
-     1) attempt to find by user name
-     2) if no users exist, create!
-     3) finally is everything goes well, auth that user before sending it all back
-     */
-    this.findOne({userName: req.body.username, password: req.body.password}).exec(function(err, user) {
+UserSchema.methods.createUser = function(req,res,next) {
+    this.save(function(err, user) {
         //if there is an error, raise it
+        if(err || !user) {res.send({  success: false }); }
+
+        //last step - LOG THE USER IN
+        req.logIn(user, function(err) {
+        //handle the error if there is on
         if(err) { return next(err); }
 
-        //if there is a user with that username then return failure
-        if(user) {
-            //since there is a user already with this username return a success of false
-            res.send({ success: false });
-        } else {
-            //make the promise call to create the new user
-            this.create({ userName: req.body.username, firstName: req.body.firstname, lastName: req.body.lastname, password: req.body.password}, function(err, user) {
-                //if there is an error, raise it
-                if(err) { return next(err); }
+            //send it all back!
+            res.send({ success: true, user: user });
+        });
+    });
+};
 
-                //if no user object was returned something happened
-                if (!user) { return { success: false } };
 
-                //last step - LOG THE USER IN
-                req.logIn(user, function(err) {
-                    //handle the error if there is on
-                    if(err) { return next(err); }
-
-                    //send it all back!
-                    res.send({ success: true, user: user });
-                });
-            });
-        }
-    })
-}
+//export the model
+module.exports = mongoose.model('User', UserSchema)

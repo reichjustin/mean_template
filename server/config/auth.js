@@ -26,7 +26,11 @@ exports.authenticate = function(req, res, next) {
 };
 
 exports.signup = function(req, res, next) {
-    return User.createUser(req,res,next);
+
+    //deserialize it to a user schema!
+    var newUser = new User(req.body);
+
+    newUser.createUser(req,res,next);
 };
 
 exports.logout = function(req,res,next) {
